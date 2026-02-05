@@ -4,6 +4,8 @@
 
 基于 OpenList 的音乐直链后端服务，供 LX Music 自定义源脚本调用，返回可播放的 URL。
 
+![GitHub Repo stars](https://img.shields.io/github/stars/q1515/139yun-music-backend)
+
 ## 部署步骤
 
 ### 1、部署openlist-mysql版本或者PostgreSQL版本
@@ -43,11 +45,12 @@ services:
 > **lx-custom.js** 修改 `const API_BASE = 'http://192.168.1.1:8000';` 最后导入完事！
 
 ## 常见问题
+制作不易给个star
 
 1) 启动后返回 401  
-  检查 `OPENLIST_TOKEN` 是否正确，并确认是在启动服务前设置。
+    检查 `OPENLIST_TOKEN` 是否正确，并确认是在启动服务前设置。
 2) 播放不了歌曲  
-  检查 `OPENLIST_PARENT` 目录是否正确，搜索词是通过`歌名 艺术家`检索，
-  可以通过 **OpenList **手动搜索以及日志排查问题。
-3) 如何获取云盘资源（为什么这么麻烦呢，好的音源不会一直存在，云盘永存）
-  `利用其他源接口下载，上传到云盘再切换到云盘自定义源`
+    检查 `OPENLIST_PARENT` 目录是否正确，搜索词是通过`歌名 艺术家`检索<br>
+    可以通过 **OpenList **手动搜索以及日志排查问题。
+3) 如何获取云盘资源（为什么这么麻烦呢，好的音源不会一直存在，云盘永存）<br>
+    `利用其他源接口下载，上传到云盘再切换到云盘自定义源`
