@@ -1,11 +1,8 @@
 # 139yun-music-backend
-
+[![GitHub stars](https://img.shields.io/github/stars/Q-1515/139yun-music-backend?style=social)](https://github.com/Q-1515/139yun-music-backend/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/Q-1515/139yun-music-backend?style=social)](https://github.com/Q-1515/139yun-music-backend/forks)
 ## 项目简介
-
 基于 OpenList 的音乐直链后端服务，供 LX Music 自定义源脚本调用，返回可播放的 URL。
-
-[![Star History Chart](https://api.star-history.com/svg?repos=你的用户名/139yun-music-backend&type=Date)](https://star-history.com/#你的用户名/139yun-music-backend&Date)
-
 ## 部署步骤
 
 ### 1、部署openlist-mysql版本或者PostgreSQL版本
