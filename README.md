@@ -4,7 +4,7 @@
 
 基于 OpenList 的音乐直链后端服务，供 LX Music 自定义源脚本调用，返回可播放的 URL。
 
-![GitHub Repo stars](https://img.shields.io/github/stars/q1515/139yun-music-backend)
+[![Star History Chart](https://api.star-history.com/svg?repos=你的用户名/139yun-music-backend&type=Date)](https://star-history.com/#你的用户名/139yun-music-backend&Date)
 
 ## 部署步骤
 
