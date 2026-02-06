@@ -6,16 +6,17 @@
  * @homepage https://github.com/Q-1515
  */
 
-const { EVENT_NAMES, request, on, send } = globalThis.lx;
+const { EVENT_NAMES, request, on, send, env } = globalThis.lx;
 
-const API_BASE = 'hhttp://192.168.1.1:8000';
+const API_BASE = 'http://192.168.1.1:8000';
 
 // 封装 POST JSON 请求，增加状态码检查
 const httpJson = (url, data) => new Promise((resolve, reject) => {
+  const body = env === 'mobile' ? data : JSON.stringify(data)
   request(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
+    body: body,
   }, (err, resp) => {
     if (err) return reject(err);
 
@@ -23,7 +24,7 @@ const httpJson = (url, data) => new Promise((resolve, reject) => {
     if (resp.statusCode < 200 || resp.statusCode >= 300) {
       return reject(new Error(`HTTP ${resp.statusCode}: ${resp.statusMessage || '请求失败'}`));
     }
-    console.log(JSON.stringify(resp, null, 2));
+    // console.log(JSON.stringify(resp, null, 2));
     const body = resp.body;
     console.log(`body:${body}`);
     resolve(body);
