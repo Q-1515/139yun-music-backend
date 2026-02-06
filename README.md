@@ -24,7 +24,7 @@ Docker Compose 部署(也可以自己构建镜像)
 ```bat
 services:
   139yun-music-backend:
-    image: q1515/139yun-music-backend:0.1
+    image: q1515/139yun-music-backend:latest
     container_name: 139yun-music-backend
     network_mode: bridge
     restart: unless-stopped
