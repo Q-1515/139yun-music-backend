@@ -21,16 +21,48 @@ const pickRawUrl = (rawResp) => {
   return data?.raw_url || null
 }
 
-const pickBestPath = (searchResp) => {
-  // 从搜索结果中取第一个音频(type=3)文件
+// 去除文件后缀
+const stripExt = (name) => name.replace(/\.[^/.]+$/, '')
+
+const pickBestPath = (searchResp, songName, artist) => {
+  // 提取搜索结果列表
   const items = getSearchItems(searchResp)
-  console.log(`[items]: ${items}`)
   if (!items.length) return null
-  for (const item of items) {
-    if (item?.type === 3 && item?.is_dir === false) return getItemPath(item)
+
+  // 目标文件名格式：歌名 - 艺术家
+  const target = `${songName} - ${artist}`.trim()
+  if (!target) return null
+
+  // 只保留音频文件
+  const candidates = items.filter((item) => item?.type === 3 && item?.is_dir === false)
+  // 只有一个音频文件，直接返回
+  if (candidates.length === 1) {
+    return getItemPath(candidates[0])
   }
-  return null
+
+  // 对候选进行打分：完全等于 > 以目标开头
+  const scored = candidates
+    .map((item) => {
+      const baseName = stripExt(item?.name || '').trim()
+      let score = -1
+      if (baseName === target) score = 2
+      else if (baseName.startsWith(target)) score = 1
+      return { item, score, size: item?.size || 0 }
+    })
+    .filter((x) => x.score >= 0)
+
+  if (!scored.length) return null
+  // 分数优先，其次文件大小优先
+  scored.sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score
+    return b.size - a.size
+  })
+
+  return getItemPath(scored[0].item)
 }
+
+
+
 
 /**
  * 接口: POST /musicUrl
@@ -56,7 +88,7 @@ app.post('/musicUrl', async (req, res) => {
     const searchResp = await searchByKeyword(keyword, { perPage: 30 })
 
     // 返回歌曲路径
-    const path = pickBestPath(searchResp)
+    const path = pickBestPath(searchResp, name, artist)
     console.log(`[musicUrl] path: ${path}`)
     if (!path) return res.status(404).json({ error: '未找到匹配文件' })
 
