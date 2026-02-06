@@ -1,15 +1,19 @@
-﻿name: Build and Push Docker
+﻿name: Build and Push Docker Image
 
 on:
   push:
-    tags: ["V*"]
+    tags:
+      - 'v*'           # 匹配 v1.0.0, v2.3.1 等
 
 jobs:
-  docker:
+  build-and-push:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -29,6 +33,9 @@ jobs:
           context: ./backend
           file: ./backend/Dockerfile
           push: true
+          platforms: linux/amd64,linux/arm64     # 支持 amd64 + arm64（Apple M系列、ARM服务器等）
           tags: |
-            q1515/139yun-music-backend:latest
             q1515/139yun-music-backend:${{ github.ref_name }}
+            q1515/139yun-music-backend:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
